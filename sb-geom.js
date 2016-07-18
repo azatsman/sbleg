@@ -65,7 +65,10 @@ function get3rdVertex (vertex1, dist1, vertex2, dist2)
   var d2 = d.x*d.x + d.y*d.y;
   var h2 = h.x*h.x + h.y*h.y;
   var x = (a2-b2) / (2*d2);
-  var y = Math.sqrt ((a2 - (x+0.5)*(x+0.5)*d2) / h2);
+  var y2 = ((a2 - (x+0.5)*(x+0.5)*d2) / h2);
+  if (y2 < 0)
+    throw ("Negative sqrt");
+  var y = Math.sqrt (y2);
   var rslt = new Pnt2 (m.x + x*d.x + y*h.x, m.y + x*d.y + y*h.y);
   return rslt;
 }
@@ -127,12 +130,15 @@ function calculateMotion (numSteps)
 
     ps.crankEnd = new Pnt2(ps.crankCtr.x+r1a.x, ps.crankCtr.y+r1a.y);
     
-    calculatePoints (ps);
-
-    var keys = Object.keys(trails);
-    for (var i in keys) {
-      var field = keys[i];
-      trails[field].push(ps[field]);
+    try {
+      calculatePoints (ps);
+      var keys = Object.keys(trails);
+      for (var i in keys) {
+	var field = keys[i];
+	trails[field].push(ps[field]);
+      }
+    }
+    catch (e) {  
     }
   }
 }
