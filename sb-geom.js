@@ -94,11 +94,11 @@ function computeDistances() {
   d45 = pointDist(ps.p4, ps.p5);
 }
 
-// Compute five points from three (crankCtr, crankEnd, p0) :
-
+// Compute five points (p1,...,p5) from three (crankCtr, crankEnd, p0) :
 
 function calculatePoints (p) {
   if (false) {
+    // This woudl be for "normal" cartesian system
     p.p1 = get3rdVertex (p.crankEnd, dc1,  p.p0,  d01);
     p.p2 = get3rdVertex (p.p0,  d02,  p.crankEnd, dc2);
     p.p3 = get3rdVertex (p.p1,  d13,  p.p0, d03);
@@ -106,6 +106,7 @@ function calculatePoints (p) {
     p.p5 = get3rdVertex (p.p4,  d45,  p.p2, d25);
   } 
   else {
+    // This code is for picture/canvas coordinates:
     p.p1 = get3rdVertex (p.p0,  d01, p.crankEnd, dc1);
     p.p2 = get3rdVertex (p.crankEnd, dc2, p.p0,  d02);
     p.p3 = get3rdVertex (p.p0, d03, p.p1,  d13);
@@ -114,22 +115,19 @@ function calculatePoints (p) {
   }
 }
 
-function calculateMotion (numSteps)
+function calculateMotion (numSteps, crankAngleDeg)
 {
   var dRho = 2 * Math.PI / numSteps;
-
+  var rho, r1, r1a;
+  //...................... The moving point of the cranshaft:
   computeDistances();
-
   trails = new Trails();
-
   for (var j=0; j<=numSteps; j++) {
     var rho = j * dRho;
     var r1  = new Pnt2 (Math.cos(rho), Math.sin(rho));
     var r1a = new Pnt2 (r1.x * crankRad, r1.y*crankRad);
     //...................... The moving point of the cranshaft:
-
     ps.crankEnd = new Pnt2(ps.crankCtr.x+r1a.x, ps.crankCtr.y+r1a.y);
-    
     try {
       calculatePoints (ps);
       var keys = Object.keys(trails);
@@ -138,12 +136,19 @@ function calculateMotion (numSteps)
 	trails[field].push(ps[field]);
       }
     }
-    catch (e) {  
+    catch (e) {
+      console.log (e.toString());
     }
   }
+ rho = Math.PI * crankAngleDeg / 180;
+ r1  = new Pnt2 (Math.cos(rho), Math.sin(rho));
+ r1a = new Pnt2 (r1.x * crankRad, r1.y*crankRad);
+  //...................... The moving point of the cranshaft:
+  ps.crankEnd = new Pnt2(ps.crankCtr.x+r1a.x, ps.crankCtr.y+r1a.y);
+  calculatePoints (ps);
 }
 
 function onReset () {
   init1(ps);
-  calculateMotion ();
+  calculateMotion (0);
 }

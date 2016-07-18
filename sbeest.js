@@ -14,7 +14,7 @@ var clickSize = 12;
 var offsetX = canvas.offsetLeft;
 var offsetY = canvas.offsetTop;
 
-
+var crankAngle = 0;
 
 var vertexColors = { 'crankEnd': 'green', 'p1': 'blue', 'p2': 'purple', 'p3': 'yellow', 'p4': 'orange', 'p5': 'pink'};
 
@@ -160,7 +160,7 @@ var mouseup = function (e) {
   }
   selectedVertex = null;
   window.location.hash = JSON.stringify(ps);
-  calculateMotion(numTracePoints);
+  calculateMotion(numTracePoints, crankAngle);
   redraw();
 }
 
@@ -220,12 +220,20 @@ function onResetButton ()
 {
   console.log ("About to reset");
   init1(ps);
-  calculateMotion(numTracePoints);
+  calculateMotion(numTracePoints, crankAngle);
+  redraw();
+}
+
+
+function adjustRotation (angleDeg) {
+  crankAngle = angleDeg;
+  console.log ("crank angle " + angleDeg);
+  calculateMotion(numTracePoints, crankAngle);
   redraw();
 }
 
 
 loadFromHash();
 computeCanvasOffset ();
-calculateMotion(numTracePoints);
+calculateMotion(numTracePoints, crankAngle);
 redraw();
