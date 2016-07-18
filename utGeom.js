@@ -1,5 +1,7 @@
 // Make sure that the points stay in place when recomputed from the distances.
 
+console.log ("-------------------------------------------\n");
+
 function utGeom () {
   console.log ("============== Start utGeom"); 
   var psKeys = [ 'crankCtr', 'crankEnd', 'p0', 'p1', 'p2', 'p3', 'p4', 'p5'];
@@ -25,5 +27,7 @@ function utGeom () {
     console.log ("ds[" + p + "] = " + Math.sqrt(ds2));
   }
 }
+
+console.log ("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@n");
 
 utGeom ();
