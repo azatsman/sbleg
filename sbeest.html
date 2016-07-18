@@ -9,17 +9,28 @@ canvas {background-color: #EEE}
 
 </HEAD>
 <BODY>
-<center>
 
+<center>
 <h2>SBeest</h2>
 
-<canvas id="sbcanvas" width="1200" height="900">
-Leg motion
-</canvas>
+<table border=1>
 
+<tr>
+<td>
+<input type=button value="Reset" onclick="onResetButton();">
+<br>
+<input type=button value="Fit" onclick="onResetButton();">
+
+</td>
+
+
+<td><canvas id="sbcanvas" width="1000" height="800">Leg motion</canvas></td>
+
+</tr>
+</table>
 </center>
+
 <script type="text/javascript" src="sb-geom.js"></script>
 <script type="text/javascript" src="sbeest.js"></script>
-<script type="text/javascript" src="utGeom.js"></script>
 </BODY>
 </HTML>

@@ -136,3 +136,8 @@ function calculateMotion (numSteps)
     }
   }
 }
+
+function onReset () {
+  init1(ps);
+  calculateMotion ();
+}

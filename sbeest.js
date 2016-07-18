@@ -10,9 +10,13 @@ var movingPointColor = 'blue';
 
 var canvas = document.getElementById('sbcanvas')
 var ctx = canvas.getContext("2d");
-var clickSize = 5;
+var clickSize = 6;
+
 var offsetX = canvas.offsetLeft;
 var offsetY = canvas.offsetTop;
+
+
+
 var vertexColors = { 'crankEnd': 'green', 'p1': 'blue', 'p2': 'purple', 'p3': 'yellow', 'p4': 'orange', 'p5': 'pink'};
 
 
@@ -179,7 +183,7 @@ canvas.onmousemove = function (e) {
 
   redraw();
 }
-  
+
 function loadFromHash() {
   var hash = window.location.hash;
   //console.log(hash);
@@ -191,6 +195,31 @@ function loadFromHash() {
   redraw();
 }
 
+function computeCanvasOffset ()
+{
+  offsetX = 0;
+  offsetY = 0;
+  var currentElement = canvas;
+  do{
+    offsetX += currentElement.offsetLeft - currentElement.scrollLeft;
+    offsetY += currentElement.offsetTop - currentElement.scrollTop;
+  }
+  while(currentElement = currentElement.offsetParent)
+  
+  console.log ("Canvas XY : " + offsetX + "," + offsetY);
+
+}
+
+function onResetButton ()
+{
+  console.log ("About to reset");
+  init1(ps);
+  calculateMotion(numTracePoints);
+  redraw();
+}
+
+
 loadFromHash();
+computeCanvasOffset ();
 calculateMotion(numTracePoints);
 redraw();
