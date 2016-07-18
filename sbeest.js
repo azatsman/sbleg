@@ -2,15 +2,14 @@
 var lineWidth = 3;
 var traceMarkSize = 2;
 
-var fixedPointSize = 10;
+var fixedPointSize = 12;
 var fixedPointColor = 'green';
-
-var movingPointSize = 6;
+var movingPointSize = 12;
 var movingPointColor = 'blue';
 
 var canvas = document.getElementById('sbcanvas')
 var ctx = canvas.getContext("2d");
-var clickSize = 6;
+var clickSize = 12;
 
 var offsetX = canvas.offsetLeft;
 var offsetY = canvas.offsetTop;
@@ -66,8 +65,15 @@ function plotPointSet (ps, tag)
   plotSeg(ps.p2, ps.p5, tag);
   plotSeg(ps.p3, ps.p4, tag);
   plotSeg(ps.p4, ps.p5, tag);
-  drawThickPoint(ps.crankCtr);
-  drawThickPoint(ps.p0);
+  drawThickPoint(ps.crankCtr, fixedPointSize, fixedPointColor);
+  drawThickPoint(ps.p0,       fixedPointSize, fixedPointColor);
+
+  drawThickPoint(ps.p1, movingPointSize, movingPointColor);
+  drawThickPoint(ps.p2, movingPointSize, movingPointColor);
+  drawThickPoint(ps.p3, movingPointSize, movingPointColor);
+  drawThickPoint(ps.p4, movingPointSize, movingPointColor);
+  drawThickPoint(ps.p5, movingPointSize, movingPointColor);
+  
 }
 
 function drawPoint (p)
@@ -76,14 +82,14 @@ function drawPoint (p)
   ctx.fillRect(p.x,p.y, traceMarkSize, traceMarkSize);
 }
 
-function drawThickPoint (p)
+function drawThickPoint (p, pSize, pColor)
 {
   // console.log (x + "  " + y + " " + label + " "  );
   ctx.save();
   ctx.beginPath()
-  ctx.fillStyle = fixedPointColor;
+  ctx.fillStyle = pColor;
 //  ctx.fillRect(p.x-1,p.y-1,3,3);
-  ctx.arc(p.x,p.y, 0.5 * fixedPointSize, 0, 2*Math.PI);
+  ctx.arc(p.x,p.y, 0.5 * pSize, 0, 2*Math.PI);
   ctx.closePath()
   ctx.fill();
   ctx.restore();
@@ -158,7 +164,7 @@ var mouseup = function (e) {
   redraw();
 }
 
-canvas.onmouseup = mouseup;
+canvas.onmouseup  = mouseup;
 canvas.onmouseout = mouseup;
 
 canvas.onmousemove = function (e) {
